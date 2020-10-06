@@ -4,32 +4,42 @@ import (
 	"net/http"
 )
 
-// APIError struct pattern for handling API errors
+var (
+	// APIErrorInterface implementing the error interface
+	APIErrorInterface = &APIError{}
+)
+
+// APIError to standardize the API errors
 type APIError struct {
 	Status  int    `json:"status"`
 	Message string `json:"message"`
 }
 
-// NewInternalServerError label
-func NewInternalServerError(message string) *APIError {
+// NewInternalServerError type
+func (ae *APIError) NewInternalServerError(message string) *APIError {
 	return &APIError{
 		Status:  http.StatusInternalServerError,
 		Message: message,
 	}
 }
 
-// NewBadRequestError label
-func NewBadRequestError(message string) *APIError {
+// NewBadRequestError type
+func (ae *APIError) NewBadRequestError(message string) *APIError {
 	return &APIError{
 		Status:  http.StatusBadRequest,
 		Message: message,
 	}
 }
 
-// NewNotFoundError label
-func NewNotFoundError(message string) *APIError {
+// NewNotFoundError type
+func (ae *APIError) NewNotFoundError(message string) *APIError {
 	return &APIError{
 		Status:  http.StatusNotFound,
 		Message: message,
 	}
+}
+
+// Error implementing the error interface
+func (ae *APIError) Error() string {
+	return "error"
 }
