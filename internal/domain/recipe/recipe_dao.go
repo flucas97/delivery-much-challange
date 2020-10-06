@@ -5,16 +5,16 @@ import (
 	"strings"
 )
 
-// Marshaller model as response using slice
-type Marshaller struct {
+// Recipe model as response, using slice of ingredients
+type Recipe struct {
 	Title       string   `json:"title"`
 	Link        string   `json:"href"`
 	Ingredients []string `json:"ingredients"`
 	Gif         string   `json:"gif"`
 }
 
-// Recipe model from recipepuppy
-type Recipe struct {
+// FromRecipepuppy Recipe model
+type FromRecipepuppy struct {
 	Title       string `json:"title"`
 	Link        string `json:"href"`
 	Ingredients string `json:"ingredients"`
@@ -23,15 +23,15 @@ type Recipe struct {
 
 // SearchResult from recipepuppy API
 type SearchResult struct {
-	Results []Recipe `json:"results"`
+	Results []FromRecipepuppy `json:"results"`
 }
 
 // IngredientsToSortedSlice is responsable to cast ingredients to slice
-func (search *SearchResult) IngredientsToSortedSlice() []Marshaller {
-	var result []Marshaller
+func (search *SearchResult) IngredientsToSortedSlice() []Recipe {
+	var result []Recipe
 
 	for _, recipe := range search.Results {
-		var actual Marshaller
+		var actual Recipe
 
 		ingredients := strings.Split(recipe.Ingredients, ", ")
 
@@ -48,6 +48,6 @@ func (search *SearchResult) IngredientsToSortedSlice() []Marshaller {
 	return result
 }
 
-func (m *Marshaller) sortIngredients() {
+func (m *Recipe) sortIngredients() {
 	sort.Strings(m.Ingredients)
 }

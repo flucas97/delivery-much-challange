@@ -8,11 +8,11 @@ import (
 
 func TestIngredientsToSortedSlice(t *testing.T) {
 	sr := SearchResult{
-		Results: []Recipe{
+		Results: []FromRecipepuppy{
 			{
 				Title:       "Bolo de Banana",
 				Link:        "https://www.delivery-much-test.com.br/recipes/bolo-de-banana",
-				Ingredients: "banana, caramelo, ovo",
+				Ingredients: "ovo, caramelo, banana",
 			},
 		},
 	}
