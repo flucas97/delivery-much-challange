@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIngredientsToSlice(t *testing.T) {
+func TestIngredientsToSortedSlice(t *testing.T) {
 	sr := SearchResult{
 		Results: []Recipe{
 			{
@@ -17,7 +17,7 @@ func TestIngredientsToSlice(t *testing.T) {
 		},
 	}
 
-	result := sr.IngredientsToSlice()
-	assert.Equal(t, []string{"banana", "caramelo", "ovo"}, result[0].Ingredients, "failed to cast ingredients. recipe.IngredientsToSlice")
+	result := sr.IngredientsToSortedSlice()
+	assert.Equal(t, []string{"banana", "caramelo", "ovo"}, result[0].Ingredients, "failed to cast or sort ingredients. recipe.IngredientsToSlice")
 	assert.Contains(t, result[0].Ingredients, "caramelo", "ovo", "banana")
 }

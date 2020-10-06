@@ -26,8 +26,8 @@ type SearchResult struct {
 	Results []Recipe `json:"results"`
 }
 
-// IngredientsToSlice is responsable to cast ingredients to slice
-func (search *SearchResult) IngredientsToSlice() []Marshaller {
+// IngredientsToSortedSlice is responsable to cast ingredients to slice
+func (search *SearchResult) IngredientsToSortedSlice() []Marshaller {
 	var result []Marshaller
 
 	for _, recipe := range search.Results {
