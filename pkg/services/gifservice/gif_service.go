@@ -4,13 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 
-	"github.com/flucas97/delivery-much-challange/tools/errortools"
-
 	"github.com/flucas97/delivery-much-challange/internal/domain/gif"
+	"github.com/flucas97/delivery-much-challange/tools/errortools"
 )
 
 var (
@@ -19,7 +17,7 @@ var (
 )
 
 var (
-	// GifService label
+	// GifService interface for other layers
 	GifService gifServiceInterface = &gifService{}
 )
 
@@ -29,7 +27,7 @@ type gifServiceInterface interface {
 
 type gifService struct{}
 
-// GetRandomByTag label
+// GetRandomByTag is responsible for getting a Giphy Gif based on a tag
 func (gs *gifService) GetRandomByTag(tag string) (*gif.Gif, *errortools.APIError) {
 	client := &http.Client{}
 
@@ -40,7 +38,7 @@ func (gs *gifService) GetRandomByTag(tag string) (*gif.Gif, *errortools.APIError
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatal(err)
+		return nil, errortools.NewInternalServerError("error doing request. gifservice.GetRandomByTag")
 	}
 	defer resp.Body.Close()
 
@@ -52,7 +50,6 @@ func (gs *gifService) GetRandomByTag(tag string) (*gif.Gif, *errortools.APIError
 	var result gif.Gif
 
 	if err := json.Unmarshal(bytes, &result); err != nil {
-		fmt.Println(string(bytes))
 		return nil, errortools.NewInternalServerError("error unmarshalling response from client. gifservice.GetRandomByTag")
 	}
 
