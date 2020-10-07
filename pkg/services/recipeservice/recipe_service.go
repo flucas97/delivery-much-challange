@@ -17,6 +17,8 @@ var (
 
 	// RecipeURI recipepuppy API endpoint
 	RecipeURI = "http://www.recipepuppy.com/api/?i="
+
+	gifService = gifservice.GifService
 )
 
 type recipeServiceInterface interface {
@@ -83,7 +85,7 @@ func (rs *recipeService) concatenateIngredients(ingredients []string) string {
 }
 
 func (rs *recipeService) getGifToRecipe(recipe *recipe.Recipe) *errortools.APIError {
-	gif, err := gifservice.GifService.GetRandomByTag(recipe.Title)
+	gif, err := gifService.GetRandomByTag(recipe.Title)
 	if err != nil {
 		return err
 	}
