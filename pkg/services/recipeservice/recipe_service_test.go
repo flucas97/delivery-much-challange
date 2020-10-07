@@ -86,7 +86,7 @@ func TestConcatenateIngredients(t *testing.T) {
 func TestGetGifToRecipe(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	httpmock.RegisterResponder("GET", fmt.Sprintf(gifservice.GiphyURI, "dev", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
+	httpmock.RegisterResponder("GET", fmt.Sprintf(gifservice.GiphyURL, "dev", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
 		`{
 			"title": "dev",
 			"images": {
