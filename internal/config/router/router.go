@@ -13,5 +13,5 @@ var (
 // StartRouter read the routes and start the server
 func StartRouter() {
 	Routes()
-	http.ListenAndServe(":3000", router)
+	http.ListenAndServe(":9090", router)
 }
