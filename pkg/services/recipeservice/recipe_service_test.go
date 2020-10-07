@@ -64,16 +64,7 @@ func TestGetRandomByTagRestClientErrorDoingRequest(t *testing.T) {
 func TestGetRandomByTagRestClientUnmarshallingError(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	httpmock.RegisterResponder("GET", RecipeURI+"eggs,garlic,onions", httpmock.NewStringResponder(http.StatusOK,
-		`{
-			"results":[
-				{
-					   "title":"Vegetable-Pasta Oven Omelet",
-					   "href":"http:\/\/find.myrecipes.com\/recipes\/recipefinder.dyn?action=displayRecipe&recipe_id=520763",
-					   "ingredients":"tomato, onions, red pepper, garlic",
-				}
-			]
-		}`))
+	httpmock.RegisterResponder("GET", RecipeURI+"eggs,garlic,onions", httpmock.NewStringResponder(http.StatusOK, `{[no_content]}`))
 
 	var ingredients = []string{"eggs", "garlic", "onions"}
 	result, err := rs.GetAll(ingredients)
@@ -100,7 +91,7 @@ func TestGetGifToRecipe(t *testing.T) {
 			"title": "dev",
 			"images": {
 				"original": {
-					"url": "https://delivery-much-challange-tag.gif"
+					"url": "https://delivery-much-challange-dev.gif"
 				}	
 			}
 		}`,
@@ -114,5 +105,5 @@ func TestGetGifToRecipe(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.NotNil(t, recipe.Gif)
-	assert.Equal(t, "https://delivery-much-challange-tag.gif", recipe.Gif)
+	assert.Equal(t, "https://delivery-much-challange-dev.gif", recipe.Gif)
 }
