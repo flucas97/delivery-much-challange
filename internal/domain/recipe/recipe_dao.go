@@ -18,7 +18,6 @@ type FromRecipepuppy struct {
 	Title       string `json:"title"`
 	Link        string `json:"href"`
 	Ingredients string `json:"ingredients"`
-	Gif         string `json:"gif"`
 }
 
 // SearchResult from recipepuppy API
@@ -38,7 +37,6 @@ func (search *SearchResult) IngredientsToSortedSlice() []Recipe {
 		actual.Title = recipe.Title
 		actual.Link = recipe.Link
 		actual.Ingredients = ingredients
-		actual.Gif = recipe.Gif
 
 		actual.sortIngredients()
 
