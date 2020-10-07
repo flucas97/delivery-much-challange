@@ -53,5 +53,9 @@ func (gs *gifService) GetRandomByTag(tag string) (*gif.Gif, *errortools.APIError
 		return nil, errortools.APIErrorInterface.NewInternalServerError("error unmarshalling response from client. gifservice.GetRandomByTag")
 	}
 
+	if result.Images.Original.URL == "" {
+		return nil, errortools.APIErrorInterface.NewInternalServerError("no response from client. gifservice.GetRandomByTag")
+	}
+
 	return &result, nil
 }
