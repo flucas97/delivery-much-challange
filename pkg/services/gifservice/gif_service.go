@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	// GiphyURI for Giphy API endpoint
-	GiphyURI = "https://api.giphy.com/v1/gifs/random?tag=%s&api_key=%s&limit=1"
+	// GiphyURL for Giphy API endpoint
+	GiphyURL = "https://api.giphy.com/v1/gifs/random?tag=%s&api_key=%s"
 )
 
 var (
@@ -29,9 +29,12 @@ type gifService struct{}
 
 // GetRandomByTag is responsible for getting a Giphy Gif based on a tag
 func (gs *gifService) GetRandomByTag(tag string) (*gif.Gif, *errortools.APIError) {
-	client := &http.Client{}
+	var (
+		client     = &http.Client{}
+		prepareURL = fmt.Sprintf(GiphyURL, tag, os.Getenv("GIPHY_API_KEY"))
+	)
 
-	request, err := http.NewRequest(http.MethodGet, fmt.Sprintf(GiphyURI, tag, os.Getenv("GIPHY_API_KEY")), nil)
+	request, err := http.NewRequest(http.MethodGet, prepareURL, nil)
 	if err != nil {
 		return nil, errortools.APIErrorInterface.NewInternalServerError("error mounting request. gifservice.GetRandomByTag")
 	}

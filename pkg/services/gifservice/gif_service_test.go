@@ -18,7 +18,7 @@ func TestGetRandomByTag(t *testing.T) {
 		httpmock.Activate()
 		defer httpmock.DeactivateAndReset()
 
-		httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "mychallange", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
+		httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURL, "mychallange", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
 			`{
 				"title": "",
 				"images": {
@@ -38,7 +38,7 @@ func TestGetRandomByTag(t *testing.T) {
 	t.Run("Success receiving a Giphy", func(t *testing.T) {
 		httpmock.Activate()
 		defer httpmock.DeactivateAndReset()
-		httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
+		httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURL, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
 			`{
 				"title": "tag",
 				"images": {
@@ -66,7 +66,7 @@ func TestGetRandomByTag(t *testing.T) {
 	t.Run("Error unmarshalling response from client", func(t *testing.T) {
 		httpmock.Activate()
 		defer httpmock.DeactivateAndReset()
-		httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
+		httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURL, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
 			`{
 				"title": "tag",
 				"images": {
@@ -87,9 +87,9 @@ func TestGetRandomByTag(t *testing.T) {
 		httpmock.Activate()
 		defer httpmock.DeactivateAndReset()
 
-		GiphyURI = "fake.com.br"
+		GiphyURL = "fake.com.br"
 
-		httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusInternalServerError, ""))
+		httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURL, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusInternalServerError, ""))
 
 		result, err := gs.GetRandomByTag("tag")
 
