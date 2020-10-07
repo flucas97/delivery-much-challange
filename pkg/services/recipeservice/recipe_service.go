@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 
 	"github.com/flucas97/delivery-much-challange/internal/domain/recipe"
 	"github.com/flucas97/delivery-much-challange/pkg/services/gifservice"
@@ -33,6 +34,7 @@ func (rs *recipeService) GetAll(ingredients []string) ([]recipe.Recipe, *errorto
 	}
 
 	ingredientsConcatenated := rs.concatenateIngredients(ingredients)
+
 	request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s%s", RecipeURI, ingredientsConcatenated), nil)
 	if err != nil {
 		return nil, errortools.APIErrorInterface.NewInternalServerError("error mounting request. recipeservice.GetAll")
@@ -67,21 +69,7 @@ func (rs *recipeService) GetAll(ingredients []string) ([]recipe.Recipe, *errorto
 }
 
 func (rs *recipeService) concatenateIngredients(ingredients []string) string {
-	var (
-		result  string
-		counter int
-	)
-
-	for _, ingredient := range ingredients {
-		counter++
-		if counter == len(ingredients) {
-			result += ingredient
-		} else {
-			result += ingredient + ","
-		}
-	}
-
-	return result
+	return strings.Join(ingredients, ",")
 }
 
 func (rs *recipeService) getGifToRecipe(recipe *recipe.Recipe) *errortools.APIError {
