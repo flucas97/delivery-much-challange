@@ -1,0 +1,9 @@
+version: '3.5'
+services:
+  backend:
+    build:
+      context: .
+    command: /app/entrypoint.sh
+    env_file: ./.env.development
+    ports:
+     - '9090:9090'
