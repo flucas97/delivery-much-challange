@@ -52,7 +52,7 @@ func TestGetAll(t *testing.T) {
 		assert.Equal(t, "http://mysuperrecipe.com", responseAPI.Recipes[0].Link)
 	})
 
-	t.Run("Passing more than three ingredients error", func(t *testing.T) {
+	t.Run("Passing no ingredients error", func(t *testing.T) {
 		httpmock.Activate()
 		defer httpmock.DeactivateAndReset()
 		httpmock.RegisterResponder("GET", recipeservice.RecipeURI+"", httpmock.NewStringResponder(http.StatusInternalServerError, ""))
