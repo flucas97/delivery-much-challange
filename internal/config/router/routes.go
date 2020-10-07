@@ -6,5 +6,5 @@ import (
 
 // Routes avaliables
 func Routes() {
-	router.HandleFunc("/recipes/", recipescontroller.GetAll)
+	router.HandleFunc("/recipes/", recipescontroller.RecipeController.GetAll)
 }
