@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	// GiphyURI label
+	// GiphyURI for Giphy API endpoint
 	GiphyURI = "https://api.giphy.com/v1/gifs/random?tag=%s&api_key=%s&limit=1"
 )
 
@@ -33,24 +33,24 @@ func (gs *gifService) GetRandomByTag(tag string) (*gif.Gif, *errortools.APIError
 
 	request, err := http.NewRequest(http.MethodGet, fmt.Sprintf(GiphyURI, tag, os.Getenv("GIPHY_API_KEY")), nil)
 	if err != nil {
-		return nil, errortools.NewInternalServerError("error mounting request. gifservice.GetRandomByTag")
+		return nil, errortools.APIErrorInterface.NewInternalServerError("error mounting request. gifservice.GetRandomByTag")
 	}
 
 	resp, err := client.Do(request)
 	if err != nil {
-		return nil, errortools.NewInternalServerError("error doing request. gifservice.GetRandomByTag")
+		return nil, errortools.APIErrorInterface.NewInternalServerError("error doing request. gifservice.GetRandomByTag")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, errortools.NewInternalServerError("error reading body. gifservice.GetRandomByTag")
+		return nil, errortools.APIErrorInterface.NewInternalServerError("error reading body. gifservice.GetRandomByTag")
 	}
 
 	var result gif.Gif
 
 	if err := json.Unmarshal(bytes, &result); err != nil {
-		return nil, errortools.NewInternalServerError("error unmarshalling response from client. gifservice.GetRandomByTag")
+		return nil, errortools.APIErrorInterface.NewInternalServerError("error unmarshalling response from client. gifservice.GetRandomByTag")
 	}
 
 	return &result, nil

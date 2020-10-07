@@ -17,7 +17,7 @@ var gs gifService
 func TestGetRandomByTagRestClientNoError(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(200,
+	httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
 		`{
 			"title": "tag",
 			"images": {
@@ -46,7 +46,7 @@ func TestGetRandomByTagRestClientNoError(t *testing.T) {
 func TestGetRandomByTagRestClientErrorUnmarshaling(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(200,
+	httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "tag", os.Getenv("GIPHY_API_KEY")), httpmock.NewStringResponder(http.StatusOK,
 		`{
 			"title": "tag",
 			"images": {
@@ -73,6 +73,7 @@ func TestGetRandomByTagRestClientErrorMountingRequest(t *testing.T) {
 
 	result, err := gs.GetRandomByTag("tag")
 
+	assert.Equal(t, "error mounting request. gifservice.GetRandomByTag", err.Message)
 	assert.NotNil(t, err)
 	assert.Empty(t, result, "mounting request should got error")
 }
@@ -80,13 +81,14 @@ func TestGetRandomByTagRestClientErrorMountingRequest(t *testing.T) {
 func TestGetRandomByTagRestClientErrorDoingRequest(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, "tag2", os.Getenv("GIPHY_API_KEY")), httpmock.NewBytesResponder(http.StatusInternalServerError, []byte("")))
 
-	result, err := GifService.GetRandomByTag("tag")
-	expectedError := errortools.NewInternalServerError("error doing request. gifservice.GetRandomByTag")
+	e := errortools.APIErrorInterface.NewInternalServerError("error doing request. gifservice.GetRandomByTag")
 
+	httpmock.RegisterResponder("GET", fmt.Sprintf(GiphyURI, " ", os.Getenv("GIPHY_API_KEY")), httpmock.NewErrorResponder(e))
+
+	result, err := gs.GetRandomByTag(" ")
+
+	assert.Equal(t, e.Message, err.Message)
 	assert.NotNil(t, err)
-	assert.Nil(t, result)
-	assert.Equal(t, http.StatusInternalServerError, err.Status)
-	assert.IsType(t, expectedError, err, "doing request should got same error type")
+	assert.Empty(t, result, "doing request should got error")
 }
