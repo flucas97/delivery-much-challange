@@ -11,6 +11,7 @@ require (
 	github.com/jarcoal/httpmock v1.0.6
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/mercadolibre/golang-restclient v0.0.0-20170701022150-51958130a0a0
+	github.com/sanzaru/go-giphy v0.0.0-20180211202227-c353d5ec6ee8
 	github.com/stretchr/testify v1.6.1
 	go.uber.org/zap v1.16.0
 	gorm.io/gorm v1.20.2
