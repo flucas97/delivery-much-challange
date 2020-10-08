@@ -2,8 +2,11 @@ package recipescontroller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/flucas97/delivery-much-challange/tools/loggertools"
 
 	"github.com/flucas97/delivery-much-challange/tools/errortools"
 
@@ -59,6 +62,8 @@ func (rc *recipeController) GetAll(w http.ResponseWriter, r *http.Request) {
 		ingredients,
 		recipes,
 	}
+
+	loggertools.Info(fmt.Sprintf("New search for %v. recipescontroller.GetAll", ingredients))
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
