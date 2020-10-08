@@ -21,9 +21,14 @@ func (sm *gifServiceMock) GetRandom(tag string) (*gif.Gif, *errortools.APIError)
 }
 
 type recipeServiceMock struct {
-	GetAllFn      func([]string) ([]recipe.Recipe, *errortools.APIError)
-	FetchGifForFn func([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
-	GetGifFn      func(label string) (string, *errortools.APIError)
+	GetAllFn                 func([]string) ([]recipe.Recipe, *errortools.APIError)
+	FetchGifForFn            func([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
+	GetGifFn                 func(string) (string, *errortools.APIError)
+	ConcatenateIngredientsFn func([]string) string
+}
+
+func (rsm *recipeServiceMock) ConcatenateIngredients(ingredients []string) string {
+	return rsm.ConcatenateIngredientsFn(ingredients)
 }
 
 func (rsm *recipeServiceMock) GetGif(label string) (string, *errortools.APIError) {
