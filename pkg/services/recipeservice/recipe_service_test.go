@@ -1,7 +1,6 @@
 package recipeservice
 
 import (
-	"fmt"
 	"net/http"
 	"testing"
 
@@ -28,7 +27,6 @@ type recipeServiceMock struct {
 }
 
 func (rsm *recipeServiceMock) GetGif(label string) (string, *errortools.APIError) {
-	fmt.Println("mocking")
 	return rsm.GetGifFn(label)
 }
 
