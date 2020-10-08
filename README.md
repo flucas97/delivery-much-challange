@@ -19,7 +19,7 @@ Após configurar a váriavel de ambiente, inicie o servidor:
 $ make
 ```
 
-### Rotas disponiveis:
+### Rotas Disponíveis:
 ```
 # GET /recipes/?i={ingredient},{ingredient}
 ```
