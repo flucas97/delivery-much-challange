@@ -29,6 +29,7 @@ type recipeServiceInterface interface {
 
 type recipeService struct{}
 
+// GetAll method responsible for seeking recipes based on ingredients
 func (rs *recipeService) GetAll(ingredients []string) ([]recipe.Recipe, *errortools.APIError) {
 	if len(ingredients) > 3 {
 		return nil, errortools.APIErrorInterface.NewBadRequestError("max of 3 ingredients. recipeservice.GetAll")
@@ -70,10 +71,12 @@ func (rs *recipeService) GetAll(ingredients []string) ([]recipe.Recipe, *errorto
 	return result, nil
 }
 
+// ConcatenateIngredients to join each ingredient, sep by comma
 func (rs *recipeService) ConcatenateIngredients(ingredients []string) string {
 	return strings.Join(ingredients, ",")
 }
 
+// GetGif for a specif label/tag
 func (rs *recipeService) GetGif(label string) (string, *errortools.APIError) {
 	gif, err := gifservice.GifService.GetRandom(label)
 	if err != nil {
@@ -83,6 +86,7 @@ func (rs *recipeService) GetGif(label string) (string, *errortools.APIError) {
 	return gif.URL, nil
 }
 
+// FetchGifFor fills the Gif attribute for each Recipe
 func (rs *recipeService) FetchGifFor(recipes []recipe.Recipe) ([]recipe.Recipe, *errortools.APIError) {
 	recipesSize := len(recipes) - 1
 
