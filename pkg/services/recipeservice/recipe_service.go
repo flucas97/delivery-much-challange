@@ -18,8 +18,6 @@ var (
 
 	// RecipeURI recipepuppy API endpoint
 	RecipeURI = "http://www.recipepuppy.com/api/?i="
-
-	gifService = gifservice.GifService
 )
 
 type recipeServiceInterface interface {
@@ -59,25 +57,51 @@ func (rs *recipeService) GetAll(ingredients []string) ([]recipe.Recipe, *errorto
 		return nil, errortools.APIErrorInterface.NewInternalServerError("error unmarshalling response from client. recipeservice.GetAll")
 	}
 
-	recipes := sr.IngredientsToSortedSlice()
+	recipesWithoutGif := sr.IngredientsToSortedSlice()
 
-	for _, recipe := range recipes {
-		rs.getGifToRecipe(&recipe)
+	result, e := rs.fetchGifFor(recipesWithoutGif)
+	if e != nil {
+		return nil, e
 	}
 
-	return recipes, nil
+	return result, nil
 }
 
 func (rs *recipeService) concatenateIngredients(ingredients []string) string {
 	return strings.Join(ingredients, ",")
 }
 
-func (rs *recipeService) getGifToRecipe(recipe *recipe.Recipe) *errortools.APIError {
-	gif, err := gifService.GetRandomByTag(recipe.Title)
+func (rs *recipeService) getGif(label string) (string, *errortools.APIError) {
+	gif, err := gifservice.GifService.GetRandom(label)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	recipe.Gif = gif.Images.Original.URL
-	return nil
+	return gif.URL, nil
+}
+
+func (rs *recipeService) fetchGifFor(recipes []recipe.Recipe) ([]recipe.Recipe, *errortools.APIError) {
+	recipesSize := len(recipes) - 1
+
+	if recipesSize != 0 {
+		var atIndex int
+
+		for atIndex <= recipesSize {
+			var recipeTitle = recipes[atIndex].Title
+
+			if recipeTitle == "" {
+				return nil, errortools.APIErrorInterface.NewInternalServerError("title cannot be empty. recipeservice.fetchGifFor")
+			}
+
+			gifURL, err := rs.getGif(recipeTitle)
+			if err != nil {
+				return nil, err
+			}
+
+			recipes[atIndex].Gif = gifURL
+			atIndex++
+		}
+	}
+
+	return recipes, nil
 }
