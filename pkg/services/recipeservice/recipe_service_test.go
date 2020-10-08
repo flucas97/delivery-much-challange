@@ -56,10 +56,12 @@ func TestGetAll(t *testing.T) {
 		var ingredients = []string{"eggs", "garlic", "onions"}
 		result, err := RecipeService.GetAll(ingredients)
 
+		recipe := result[0]
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
-		assert.Equal(t, "Vegetable-Pasta Oven Omelet", result[0].Title)
-		assert.Equal(t, []string{"garlic", "onions", "red pepper", "tomato"}, result[0].Ingredients)
+		assert.Equal(t, "Vegetable-Pasta Oven Omelet", recipe.Title)
+		assert.Equal(t, []string{"garlic", "onions", "red pepper", "tomato"}, recipe.Ingredients)
+		assert.EqualValues(t, 4, len(recipe.Ingredients))
 	})
 
 	t.Run("More than three ingredients", func(t *testing.T) {
