@@ -7,7 +7,7 @@ $ git clone github.com/flucas97/delivery-much-challange
 $ cd delivery-much-challange
 ```
 
-Faça uma copia do arquivo .env.development.example e insira sua API_KEY do Giphy.
+Faça uma copia do arquivo .env.development.example e altere o GIPHY_API_KEY com a sua API_KEY do Giphy.
 ```shell
 $ mv .env.development.example env.development
 $ vim env.development
@@ -19,7 +19,7 @@ Após configurar a váriavel de ambiente, inicie o servidor:
 $ make
 ```
 
-### Rotas disponiveis:
+### Rotas Disponíveis:
 ```
 # GET /recipes/?i={ingredient},{ingredient}
 ```
