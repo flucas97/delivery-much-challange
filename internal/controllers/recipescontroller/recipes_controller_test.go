@@ -69,7 +69,7 @@ func TestGetAll(t *testing.T) {
 		bytes, _ := ioutil.ReadAll(res.Body)
 		json.Unmarshal(bytes, &errorAPI)
 
-		assert.Equal(t, "pass at least one ingredient, and max three.", errorAPI.Message)
+		assert.Equal(t, "enter at least one ingredient.", errorAPI.Message)
 	})
 
 	t.Run("Error on GetAll service response", func(t *testing.T) {

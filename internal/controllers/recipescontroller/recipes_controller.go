@@ -33,7 +33,7 @@ func (rc *recipeController) GetAll(w http.ResponseWriter, r *http.Request) {
 
 	params := r.URL.Query()["i"]
 	if params == nil {
-		var e = errortools.APIErrorInterface.NewBadRequestError("pass at least one ingredient, and max three.")
+		var e = errortools.APIErrorInterface.NewBadRequestError("enter at least one ingredient.")
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
