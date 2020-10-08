@@ -1,6 +1,7 @@
 package recipeservice
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -112,8 +113,10 @@ func TestGetGif(t *testing.T) {
 		serviceMock := gifServiceMock{}
 
 		serviceMock.GetRandomFn = func(tag string) (*gif.Gif, *errortools.APIError) {
+			mockURL := fmt.Sprintf("%v.gif", tag)
+
 			responseMock := gif.Gif{
-				URL: tag,
+				URL: mockURL,
 			}
 			return &responseMock, nil
 		}
@@ -122,7 +125,7 @@ func TestGetGif(t *testing.T) {
 
 		result, err := RecipeService.GetGif("dev.test")
 
-		assert.Equal(t, "dev.test", result)
+		assert.Equal(t, "dev.test.gif", result)
 		assert.Nil(t, err)
 	})
 
