@@ -27,7 +27,7 @@ type recipeControllerInterface interface {
 	GetAll(w http.ResponseWriter, r *http.Request)
 }
 
-// GetAll label
+// GetAll handles the request to get all recipes based on ingredients
 func (rc *recipeController) GetAll(w http.ResponseWriter, r *http.Request) {
 	var (
 		ingredientsParams string
