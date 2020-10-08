@@ -24,6 +24,7 @@ type recipeServiceInterface interface {
 	GetAll([]string) ([]recipe.Recipe, *errortools.APIError)
 	fetchGifFor([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
 	getGif(string) (string, *errortools.APIError)
+	concatenateIngredients([]string) string
 }
 
 type recipeService struct{}
