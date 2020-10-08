@@ -9,8 +9,8 @@ $ cd delivery-much-challange
 
 Faça uma copia do arquivo .env.development.example com o nome .env.development, e altere o GIPHY_API_KEY com a sua API_KEY do Giphy.
 ```shell
-$ mv .env.development.example env.development
-$ vim env.development
+$ mv .env.development.example .env.development
+$ vim .env.development
 ```
 Caso não tenha uma API_KEY do Giphy ainda, basta seguir este tutorial: https://support.giphy.com/hc/en-us/articles/360020283431-Request-A-GIPHY-API-Key
 
