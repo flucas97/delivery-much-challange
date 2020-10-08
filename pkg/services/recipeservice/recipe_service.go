@@ -22,9 +22,9 @@ var (
 
 type recipeServiceInterface interface {
 	GetAll([]string) ([]recipe.Recipe, *errortools.APIError)
-	fetchGifFor([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
-	getGif(string) (string, *errortools.APIError)
-	concatenateIngredients([]string) string
+	FetchGifFor([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
+	GetGif(string) (string, *errortools.APIError)
+	ConcatenateIngredients([]string) string
 }
 
 type recipeService struct{}
@@ -34,7 +34,7 @@ func (rs *recipeService) GetAll(ingredients []string) ([]recipe.Recipe, *errorto
 		return nil, errortools.APIErrorInterface.NewBadRequestError("max of 3 ingredients. recipeservice.GetAll")
 	}
 
-	ingredientsConcatenated := rs.concatenateIngredients(ingredients)
+	ingredientsConcatenated := rs.ConcatenateIngredients(ingredients)
 
 	request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s%s", RecipeURI, ingredientsConcatenated), nil)
 	if err != nil {
@@ -62,7 +62,7 @@ func (rs *recipeService) GetAll(ingredients []string) ([]recipe.Recipe, *errorto
 
 	recipesWithoutGif := sr.IngredientsToSortedSlice()
 
-	result, e := rs.fetchGifFor(recipesWithoutGif)
+	result, e := rs.FetchGifFor(recipesWithoutGif)
 	if e != nil {
 		return nil, e
 	}
@@ -70,11 +70,11 @@ func (rs *recipeService) GetAll(ingredients []string) ([]recipe.Recipe, *errorto
 	return result, nil
 }
 
-func (rs *recipeService) concatenateIngredients(ingredients []string) string {
+func (rs *recipeService) ConcatenateIngredients(ingredients []string) string {
 	return strings.Join(ingredients, ",")
 }
 
-func (rs *recipeService) getGif(label string) (string, *errortools.APIError) {
+func (rs *recipeService) GetGif(label string) (string, *errortools.APIError) {
 	gif, err := gifservice.GifService.GetRandom(label)
 	if err != nil {
 		return "", err
@@ -83,7 +83,7 @@ func (rs *recipeService) getGif(label string) (string, *errortools.APIError) {
 	return gif.URL, nil
 }
 
-func (rs *recipeService) fetchGifFor(recipes []recipe.Recipe) ([]recipe.Recipe, *errortools.APIError) {
+func (rs *recipeService) FetchGifFor(recipes []recipe.Recipe) ([]recipe.Recipe, *errortools.APIError) {
 	recipesSize := len(recipes) - 1
 
 	if recipesSize != 0 {
@@ -93,10 +93,10 @@ func (rs *recipeService) fetchGifFor(recipes []recipe.Recipe) ([]recipe.Recipe, 
 			var recipeTitle = recipes[atIndex].Title
 
 			if recipeTitle == "" {
-				return nil, errortools.APIErrorInterface.NewInternalServerError("title cannot be empty. recipeservice.fetchGifFor")
+				return nil, errortools.APIErrorInterface.NewInternalServerError("title cannot be empty. recipeservice.FetchGifFor")
 			}
 
-			gifURL, err := rs.getGif(recipeTitle)
+			gifURL, err := rs.GetGif(recipeTitle)
 			if err != nil {
 				return nil, err
 			}

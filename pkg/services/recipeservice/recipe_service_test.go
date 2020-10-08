@@ -23,21 +23,21 @@ func (sm *gifServiceMock) GetRandom(tag string) (*gif.Gif, *errortools.APIError)
 
 type recipeServiceMock struct {
 	GetAllFn      func([]string) ([]recipe.Recipe, *errortools.APIError)
-	fetchGifForFn func([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
-	getGifFn      func(label string) (string, *errortools.APIError)
+	FetchGifForFn func([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
+	GetGifFn      func(label string) (string, *errortools.APIError)
 }
 
-func (rsm *recipeServiceMock) getGif(label string) (string, *errortools.APIError) {
+func (rsm *recipeServiceMock) GetGif(label string) (string, *errortools.APIError) {
 	fmt.Println("mocking")
-	return rsm.getGifFn(label)
+	return rsm.GetGifFn(label)
 }
 
 func (rsm *recipeServiceMock) GetAll(ingredients []string) ([]recipe.Recipe, *errortools.APIError) {
 	return rsm.GetAllFn(ingredients)
 }
 
-func (rsm *recipeServiceMock) fetchGifFor(recipes []recipe.Recipe) ([]recipe.Recipe, *errortools.APIError) {
-	return rsm.fetchGifForFn(recipes)
+func (rsm *recipeServiceMock) FetchGifFor(recipes []recipe.Recipe) ([]recipe.Recipe, *errortools.APIError) {
+	return rsm.FetchGifForFn(recipes)
 }
 
 func TestGetAll(t *testing.T) {
@@ -115,7 +115,7 @@ func TestGetGif(t *testing.T) {
 
 		gifservice.GifService = &serviceMock
 
-		result, err := RecipeService.getGif("dev.test")
+		result, err := RecipeService.GetGif("dev.test")
 
 		assert.Equal(t, "dev.test", result)
 		assert.Nil(t, err)
@@ -131,7 +131,7 @@ func TestGetGif(t *testing.T) {
 
 		gifservice.GifService = &serviceMock
 
-		result, err := RecipeService.getGif("dev.test")
+		result, err := RecipeService.GetGif("dev.test")
 
 		assert.NotNil(t, err)
 		assert.Equal(t, "error getting Giphy. gifservice.GetRandom", err.Message)
@@ -150,10 +150,10 @@ func TestFetchGifFor(t *testing.T) {
 			},
 		}
 
-		result, err := RecipeService.fetchGifFor(example)
+		result, err := RecipeService.FetchGifFor(example)
 
 		assert.NotNil(t, err)
-		assert.Equal(t, "title cannot be empty. recipeservice.fetchGifFor", err.Message)
+		assert.Equal(t, "title cannot be empty. recipeservice.FetchGifFor", err.Message)
 		assert.Nil(t, result)
 	})
 }
@@ -164,7 +164,7 @@ func TestConcatenateIngredients(t *testing.T) {
 			ingredients = []string{"aveia", "mel", "abobora"}
 		)
 
-		result := RecipeService.concatenateIngredients(ingredients)
+		result := RecipeService.ConcatenateIngredients(ingredients)
 		assert.Equal(t, "aveia,mel,abobora", result)
 	})
 }
