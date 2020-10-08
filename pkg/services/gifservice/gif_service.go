@@ -9,12 +9,7 @@ import (
 )
 
 var (
-	// GiphyURL for Giphy API endpoint
-	GiphyURL = "https://api.giphy.com/v1/gifs/random?tag=%s&api_key=%s"
-)
-
-var (
-	// GifService interface for other layers
+	// GifService interface for public access
 	GifService gifServiceInterface = &gifService{}
 )
 
