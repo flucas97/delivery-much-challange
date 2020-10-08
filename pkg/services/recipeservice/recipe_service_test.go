@@ -1,6 +1,7 @@
 package recipeservice
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -22,6 +23,25 @@ type gifServiceMock struct {
 
 func (sm *gifServiceMock) GetRandom(tag string) (*gif.Gif, *errortools.APIError) {
 	return sm.GetRandomFn(tag)
+}
+
+type recipeServiceMock struct {
+	GetAllFn      func([]string) ([]recipe.Recipe, *errortools.APIError)
+	fetchGifForFn func([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
+	getGifFn      func(label string) (string, *errortools.APIError)
+}
+
+func (rsm *recipeServiceMock) getGif(label string) (string, *errortools.APIError) {
+	fmt.Println("mocking")
+	return rsm.getGifFn(label)
+}
+
+func (rsm *recipeServiceMock) GetAll(ingredients []string) ([]recipe.Recipe, *errortools.APIError) {
+	return rsm.GetAllFn(ingredients)
+}
+
+func (rsm *recipeServiceMock) fetchGifFor(recipes []recipe.Recipe) ([]recipe.Recipe, *errortools.APIError) {
+	return rsm.fetchGifForFn(recipes)
 }
 
 func TestGetAll(t *testing.T) {

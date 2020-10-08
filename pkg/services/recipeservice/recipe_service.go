@@ -22,6 +22,8 @@ var (
 
 type recipeServiceInterface interface {
 	GetAll([]string) ([]recipe.Recipe, *errortools.APIError)
+	fetchGifFor([]recipe.Recipe) ([]recipe.Recipe, *errortools.APIError)
+	getGif(string) (string, *errortools.APIError)
 }
 
 type recipeService struct{}
