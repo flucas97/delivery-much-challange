@@ -30,7 +30,7 @@ func TestGetAll(t *testing.T) {
 					{
 						   "title":"recipe",
 						   "href":"http://mysuperrecipe.com",
-						   "ingredients":"a, b, c, d"
+						   "ingredients":"d, a, b, c"
 					}
 				]
 			}`))
@@ -47,9 +47,13 @@ func TestGetAll(t *testing.T) {
 		bytes, err := ioutil.ReadAll(res.Body)
 		json.Unmarshal(bytes, &responseAPI)
 
+		recipe := responseAPI.Recipes[0]
 		assert.Nil(t, err)
 		assert.NotNil(t, responseAPI)
-		assert.Equal(t, "http://mysuperrecipe.com", responseAPI.Recipes[0].Link)
+		assert.Equal(t, "recipe", recipe.Title)
+		assert.Equal(t, []string{"a", "b", "c", "d"}, recipe.Ingredients)
+		assert.Equal(t, "http://mysuperrecipe.com", recipe.Link)
+		assert.EqualValues(t, 1, len(responseAPI.Recipes))
 	})
 
 	t.Run("Passing no ingredients error", func(t *testing.T) {
