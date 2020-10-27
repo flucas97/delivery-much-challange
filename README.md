@@ -1,10 +1,10 @@
-# Delivery Much Tech Challenge - Recipes API
+# Recipes API
 
 ### Como usar?
 
 ```shell
-$ git clone github.com/flucas97/delivery-much-challange
-$ cd delivery-much-challange
+$ git clone github.com/flucas97/recipes-api
+$ cd recipes-api
 ```
 
 Faça uma copia do arquivo .env.development.example com o nome .env.development, e altere o GIPHY_API_KEY com a sua API_KEY do Giphy.
